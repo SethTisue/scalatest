@@ -41,7 +41,7 @@ import words.{CanVerb, ResultOfAfterWordApplication, ShouldVerb, BehaveWord,
  * @author Bill Venners
  */
 @Finders(Array("org.scalatest.finders.WordSpecFinder"))
-//SCALATESTJS-ONLY @scala.scalajs.js.annotation.JSExportDescendentClasses(ignoreInvalidDescendants = true)
+//SCALATESTJS-ONLY @scala.scalajs.reflect.annotation.EnableReflectiveInstantiation
 trait WordSpecLike extends TestSuite with TestRegistration with ShouldVerb with MustVerb with CanVerb with Informing with Notifying with Alerting with Documenting { thisSuite =>
 
   private final val engine = new Engine(Resources.concurrentWordSpecMod, "WordSpecLike")
@@ -1183,7 +1183,7 @@ one error found
    * "A Stack (when not full) must allow me to push"
    * </pre>
    */
-  override def testNames: scala.collection.Set[String] = {
+  override def testNames: Set[String] = {
     InsertionOrderSet(atomic.get.testNamesList)
   }
 

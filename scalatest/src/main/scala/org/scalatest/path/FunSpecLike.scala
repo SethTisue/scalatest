@@ -45,7 +45,7 @@ import org.scalatest.PathEngine.isInTargetPath
  * @author Bill Venners
  */
 @Finders(Array("org.scalatest.finders.FunSpecFinder"))
-//SCALATESTJS-ONLY @scala.scalajs.js.annotation.JSExportDescendentClasses(ignoreInvalidDescendants = true)
+//SCALATESTJS-ONLY @scala.scalajs.reflect.annotation.EnableReflectiveInstantiation
 trait FunSpecLike extends org.scalatest.Suite with OneInstancePerTest with Informing with Notifying with Alerting with Documenting { thisSuite =>
   
   private final val engine = PathEngine.getEngine()
@@ -456,7 +456,7 @@ trait FunSpecLike extends org.scalatest.Suite with OneInstancePerTest with Infor
    * <a href="#sharedFixtures">Shared fixtures</a> section in the main documentation for this trait.
    * </p>
    */
-  final override def testNames: scala.collection.Set[String] = {
+  final override def testNames: Set[String] = {
     ensureTestResultsRegistered(thisSuite)
     InsertionOrderSet(atomic.get.testNamesList)
   }

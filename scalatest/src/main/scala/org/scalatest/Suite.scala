@@ -737,7 +737,7 @@ trait Suite extends Assertions with Serializable { thisSuite =>
     requireNonNull(configMap)
     val SelectedTag = "Selected"
     val SelectedSet = Set(SelectedTag)
-    val desiredTests: scala.collection.Set[String] =
+    val desiredTests: Set[String] =
       if (testName == null) Set.empty
       else {
         testNames.filter { s =>
@@ -887,7 +887,7 @@ trait Suite extends Assertions with Serializable { thisSuite =>
    * <p>
    * This trait's implementation of this method returns an empty <code>Set</code>.
    */
-  def testNames: scala.collection.Set[String] = Set.empty
+  def testNames: Set[String] = Set.empty
 
   // SKIP-SCALATESTJS-START
   // Leave this around for a while so can print out a warning if we find testXXX methods.
@@ -1325,7 +1325,7 @@ trait Suite extends Assertions with Serializable { thisSuite =>
   def expectedTestCount(filter: Filter): Int = {
 
     @tailrec
-    def countNestedSuiteTests(acc: Int, nestedSuitesToCount: scala.collection.Seq[Suite], filter: Filter): Int =
+    def countNestedSuiteTests(acc: Int, nestedSuitesToCount: List[Suite], filter: Filter): Int =
       nestedSuitesToCount match {
         case List() => acc
         case head :: tail => 
@@ -1676,10 +1676,12 @@ used for test events like succeeded/failed, etc.
     lines.map(line => line.split("\n").map(indentation(level) + _).mkString("\n"))
     
   def substituteHtmlSpace(value: String) = value.replaceAll(" ", "&nbsp;")
-    
+
+  // SKIP-SCALATESTJS-START
   def unparsedXml(value: String) = scala.xml.Unparsed(value)
   
   def xmlContent(value: String) = unparsedXml(substituteHtmlSpace(value))
+  // SKIP-SCALATESTJS-END
 
   def reportTestFailed(theSuite: Suite, report: Reporter, throwable: Throwable, testName: String, testText: String,
                        recordedEvents: collection.immutable.IndexedSeq[RecordableEvent], rerunnable: Option[String], tracker: Tracker, duration: Long, formatter: Formatter, location: Option[Location]): Unit = {

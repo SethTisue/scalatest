@@ -281,7 +281,7 @@ $columnsOfIndexes$
 """
 
 val tableTemplateRaw = """
-class TableFor$n$[$alphaUpper$](val heading: ($strings$), rows: ($alphaUpper$)*) extends scala.collection.IndexedSeq[($alphaUpper$)] with scala.collection.IndexedSeqLike[($alphaUpper$), TableFor$n$[$alphaUpper$]] {
+class TableFor$n$[$alphaUpper$](val heading: ($strings$), rows: ($alphaUpper$)*) extends IndexedSeq[($alphaUpper$)] with scala.collection.IndexedSeqLike[($alphaUpper$), TableFor$n$[$alphaUpper$]] {
 
   /**
    * Selects a row of data by its index.
@@ -292,6 +292,10 @@ class TableFor$n$[$alphaUpper$](val heading: ($strings$), rows: ($alphaUpper$)*)
    * The number of rows of data in the table. (This does not include the <code>heading</code> tuple)
    */
   def length: Int = rows.length
+
+  override def filter(p: (($alphaUpper$)) => Boolean): TableFor$n$[$alphaUpper$] = new TableFor$n$[$alphaUpper$](heading, rows.filter(p): _*)
+
+  def ++(others: Iterable[($alphaUpper$)]): TableFor$n$[$alphaUpper$] = new TableFor$n$[$alphaUpper$](heading, (rows ++ others): _*)
 
   $$CLASS_BUILDER_METHODS$$
 
@@ -361,6 +365,7 @@ def tableTemplate(scalaVersion: String): String =
                       |      def fromSpecific(from: org.scalatest.prop.TableFor$n$[$alphaUpper$])(it: IterableOnce[($alphaUpper$)]): org.scalatest.prop.TableFor$n$[$alphaUpper$] =
                       |        new TableFor$n$(from.heading, it.toSeq: _*)
                     """.stripMargin)
+                    .replaceAllLiterally("CanBuildFrom", "scala.collection.BuildFrom")
   else
     tableTemplateRaw.replaceAllLiterally("$$CLASS_BUILDER_METHODS$$",
                     """  /**
